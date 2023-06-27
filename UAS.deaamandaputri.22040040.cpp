@@ -92,14 +92,14 @@ void bubbleSortProduk(Produk dataProduk[], int jumlahProduk) {
         }
     }
 
-    gotoXY(2, 17);
+    gotoXY(2, 12);
     cout << "Produk berhasil diurutkan berdasarkan harga!" << endl;
 }
 
 void cariProduk(Produk dataProduk[], int jumlahProduk, const string& keyword) {
     bool found = false;
 
-    gotoXY(2, 17);
+    gotoXY(2, 10);
     cout << "Hasil Pencarian untuk keyword '" << keyword << "':" << endl;
 
     for (int i = 0; i < jumlahProduk; i++) {
@@ -118,6 +118,63 @@ void cariProduk(Produk dataProduk[], int jumlahProduk, const string& keyword) {
     gotoXY(2, 20);system("pause");
 }
 
+void prosesTransaksi(Produk dataProduk[], int jumlahProduk) {
+    int nomorProduk;
+    int jumlahBeli;
+    char lagi;
+
+    do {
+        
+		system("cls");
+
+        gotoXY(2, 1);
+        cout << "=== Proses Transaksi ===" << endl;
+        gotoXY(2, 2);
+        tampilkanDaftarBuku(dataProduk, jumlahProduk);
+
+        gotoXY(2, 12);
+        cout << "Pilih nomor produk yang akan dibeli: ";
+        cin >> nomorProduk;
+
+        if (nomorProduk >= 1 && nomorProduk <= jumlahProduk) {
+            gotoXY(2, 13);
+            cout << "Masukkan jumlah yang akan dibeli: ";
+            cin >> jumlahBeli;
+
+            if (jumlahBeli > 0) {
+                int totalHarga = dataProduk[nomorProduk - 1].harga * jumlahBeli;
+                gotoXY(2, 15);
+                cout << "Total Harga: " << totalHarga << endl;
+
+                // Tambahkan ke resume transaksi
+                Produk barang = dataProduk[nomorProduk - 1];
+                for (int i = 0; i < jumlahBeli; i++) {
+                    dataProduk[jumlahProduk] = barang;
+                    jumlahProduk++;
+                }
+            } else {
+                gotoXY(2, 15);
+                cout << "Jumlah beli harus lebih dari 0!" << endl;
+            }
+        } else {
+            gotoXY(2, 13);
+            cout << "Nomor produk tidak valid!" << endl;
+        }
+
+        gotoXY(2, 17);
+        cout << "Apakah ingin membeli lagi? (Y/N): ";
+        cin >> lagi;
+
+    } while (toupper(lagi) == 'Y');
+
+    cls();
+    gotoXY(2, 1);
+    cout << "Transaksi selesai!" << endl;
+    gotoXY(2, 3);
+    system("pause");
+}
+
+
 void tampilkanResumeTransaksi(Produk dataProduk[], int jumlahProduk) {
     int subtotal = 0;
     int total = 0;
@@ -133,7 +190,7 @@ void tampilkanResumeTransaksi(Produk dataProduk[], int jumlahProduk) {
 
         subtotal += dataProduk[i].harga;
     }
-    gotoXY(3, 10);cout << "=====================================" << endl;
+    gotoXY(2, 11);cout << "======================================" << endl;
 
     total = subtotal;
 
@@ -157,14 +214,16 @@ int main() {
     string nama, kelas;
     int nim;
 
-    gotoXY(0, 0);
+	gotoXY(0, 0);
+	cout<<"isi data diri terlebih dahulu";
+    gotoXY(0, 1);
     cout << "Masukkan NIM: ";
     cin >> nim;
     cin.ignore();
-    gotoXY(0, 1);
+    gotoXY(0, 2);
     cout << "Masukkan Nama: ";
     getline(cin, nama);
-    gotoXY(0, 2);
+    gotoXY(0, 3);
     cout << "Masukkan Kelas: ";
     getline(cin, kelas);
     
@@ -178,60 +237,71 @@ int main() {
 	gotoXY(2, 10);system("pause");
     do {
     	system("cls");
-        gotoXY(2, 2);cout << "=== Program kasir buku ===" << endl;
-        gotoXY(2, 3);cout << "1. Tambah buku" << endl; 
-        gotoXY(2, 4);cout << "2. Tampilkan buku" << endl;
-        gotoXY(2, 5);cout << "3. Urutkan buku berdasarkan harga (Bubble Sort)" << endl;
-        gotoXY(2, 6);cout << "4. Cari buku" << endl;
-        gotoXY(2, 7);cout << "5. Tampilkan resume transaksi" << endl;
-        gotoXY(2, 8);cout << "6. Keluar" << endl;
-        gotoXY(2, 9);cout << "Pilihan Anda: ";
+    	gotoXY(3, 1);
+        cout << "=== Program kasir Toko Buku ===" << endl;
+        gotoXY(3, 2);
+        cout << "1. Tambah buku" << endl;
+        gotoXY(3, 3);
+        cout << "2. Tampilkan buku" << endl;
+        gotoXY(3, 4);
+        cout << "3. Urutkan buku berdasarkan harga (Bubble Sort)" << endl;
+        gotoXY(3, 5);
+        cout << "4. Cari buku" << endl;
+        gotoXY(3, 6);
+        cout << "5. Proses Transaksi" << endl;
+        gotoXY(3, 7);
+        cout << "6. Tampilkan resume transaksi" << endl;
+        gotoXY(3, 8);
+        cout << "7. Keluar" << endl;
+        gotoXY(3, 10);
+        cout << "Pilihan Anda: ";
         cin >> pilihan;
         cls();
 
         switch (pilihan) {
             case 1:
-            	
                 tambahProduk(dataProduk, jumlahProduk);
-                cls();
                 break;
             case 2:
                 tampilkanDaftarBuku(dataProduk, jumlahProduk);
-                gotoXY(2, 20);system("pause");
-                cls();
+                gotoXY(2, 12);
+                system("pause");
                 break;
             case 3:
                 bubbleSortProduk(dataProduk, jumlahProduk);
-                tampilkanDaftarBuku(dataProduk, jumlahProduk); // Tampilkan daftar buku setelah diurutkan
-                gotoXY(3, 20);system("pause");
+                tampilkanDaftarBuku(dataProduk, jumlahProduk);
+                gotoXY(2, 17);
+                system("pause");
                 break;
-            case 4:
-                {
-                    cin.ignore(); // Clear the input buffer
-                    gotoXY(2, 1);
-                    cout << "Masukkan keyword pencarian: ";
-                    string keyword;
-                    getline(cin, keyword);
-                    cariProduk(dataProduk, jumlahProduk, keyword);
-                    cls();
-                    break;
-                }
+            case 4: {
+                cin.ignore(); // Clear the input buffer
+                gotoXY(2, 1);
+                cout << "Masukkan keyword pencarian: ";
+                string keyword;
+                getline(cin, keyword);
+                cariProduk(dataProduk, jumlahProduk, keyword);
+                break;
+            }
             case 5:
-                tampilkanResumeTransaksi(dataProduk, jumlahProduk);
-                cls();
+                prosesTransaksi(dataProduk, jumlahProduk);
                 break;
             case 6:
+                tampilkanResumeTransaksi(dataProduk, jumlahProduk);
+                break;
+            case 7:
+                gotoXY(2, 1);
                 cout << "Terima kasih telah menggunakan program ini!" << endl;
-                cls();
+                gotoXY(2, 3);
+                system("pause");
                 break;
             default:
+                gotoXY(2, 1);
                 cout << "Pilihan tidak valid!" << endl;
-                cls();
+                gotoXY(2, 3);
+                system("pause");
                 break;
         }
-
-        cout << endl;
-    } while (pilihan != 6);
+    } while (pilihan != 7);
     
     gotoXY(2, 1);cout << "===========================[ PROGRAM KASIR BUKU ]======================\n";
     gotoXY(2, 2);cout << "|         NIM        |            NAMA            |        KELAS      |\n";
